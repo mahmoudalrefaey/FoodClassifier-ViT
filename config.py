@@ -8,7 +8,6 @@ import torch
 
 # Model Configuration
 MODEL_CONFIG = {
-    "model_path": "model/bestViT_PT.pth",
     "feature_extractor_name": "google/vit-base-patch16-224",
     "num_labels": 3,
     "image_size": 224,
@@ -33,11 +32,7 @@ IMAGE_CONFIG = {
 GRADIO_CONFIG = {
     "title": "FoodViT - Food Classification",
     "description": "Upload an image to classify it as pizza, steak, or sushi",
-    "examples": [
-        ["assets/example_pizza.jpg"],
-        ["assets/example_steak.jpg"],
-        ["assets/example_sushi.jpg"]
-    ],
+    # Examples are now loaded dynamically from assets/samples/
     "theme": "default"
 }
 

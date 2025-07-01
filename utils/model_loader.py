@@ -7,6 +7,7 @@ import torch
 import os
 from transformers import ViTForImageClassification, ViTFeatureExtractor
 from config import MODEL_CONFIG, CLASS_CONFIG
+from huggingface_hub import hf_hub_download
 
 class ModelLoader:
     """Class to handle model loading and initialization"""
@@ -17,60 +18,38 @@ class ModelLoader:
         self.device = MODEL_CONFIG["device"]
         
     def load_model(self):
-        """Load the trained PyTorch model"""
+        """Load the trained PyTorch model from Hugging Face Hub"""
         try:
-            # First, try to create a new model instance and load weights
+            # Download the model from the Hugging Face Hub
+            model_path = hf_hub_download(
+                repo_id="mahmoudalrefaey/FoodViT-weights",
+                filename="bestViT_PT.pth"
+            )
             from transformers import ViTForImageClassification
-            
-            # Create a new model instance
             self.model = ViTForImageClassification.from_pretrained(
                 MODEL_CONFIG["feature_extractor_name"],
                 num_labels=MODEL_CONFIG["num_labels"],
                 ignore_mismatched_sizes=True
             )
-            
-            # Load the state dict from the saved model
             checkpoint = torch.load(
-                MODEL_CONFIG["model_path"], 
+                model_path,
                 map_location=self.device,
                 weights_only=False
             )
-            
-            # If it's a full model, extract the state dict
             if hasattr(checkpoint, 'state_dict'):
                 state_dict = checkpoint.state_dict()
             elif isinstance(checkpoint, dict) and 'state_dict' in checkpoint:
                 state_dict = checkpoint['state_dict']
             else:
                 state_dict = checkpoint
-            
-            # Load the state dict
             self.model.load_state_dict(state_dict, strict=False)
-            
-            # Set model to evaluation mode
             self.model.eval()
             self.model.to(self.device)
-            
             print(f"Model loaded successfully on {self.device}")
             return True
-            
         except Exception as e:
             print(f"Error loading model: {e}")
-            # Fallback to direct loading
-            try:
-                print("Trying direct loading method...")
-                self.model = torch.load(
-                    MODEL_CONFIG["model_path"], 
-                    map_location=self.device,
-                    weights_only=False
-                )
-                self.model.eval()
-                self.model.to(self.device)
-                print(f"Model loaded successfully with direct method on {self.device}")
-                return True
-            except Exception as e2:
-                print(f"Direct loading also failed: {e2}")
-                return False
+            return False
     
     def load_feature_extractor(self):
         """Load the ViT feature extractor"""

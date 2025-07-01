@@ -1,3 +1,13 @@
+---
+title: FoodClassifier-ViT
+emoji: 🍕
+colorFrom: indigo
+colorTo: pink
+sdk: gradio
+app_file: app.py
+pinned: false
+---
+
 # FoodViT - Food Classification Application
 
 A production-ready food classification application using Vision Transformer (ViT) that can classify images into three categories: **pizza**, **steak**, and **sushi**.
@@ -10,6 +20,7 @@ A production-ready food classification application using Vision Transformer (ViT
 - **Production Ready**: Modular, well-structured codebase with proper error handling
 - **Dynamic Example Images**: Example images are randomly selected from `assets/samples/` at each app launch
 - **Easy Deployment**: Simple setup and configuration
+- **Model weights hosted on Hugging Face Hub**: The model file is not included in this repository; it is automatically downloaded from the Hugging Face Model Hub at runtime.
 
 ## 📁 Project Structure
 
@@ -21,8 +32,6 @@ FoodViT/
 ├── requirements.txt      # Python dependencies
 ├── README.md            # This file
 ├── INSTALLATION.md      # Installation and troubleshooting guide
-├── model/
-│   └── bestViT_PT.pth   # Trained PyTorch model
 ├── utils/
 │   ├── model_loader.py  # Model loading utilities
 │   ├── image_processor.py # Image preprocessing
@@ -142,6 +151,7 @@ print(f"Predicted: {result['class']} ({result['confidence']:.2%})")
 - **Classes**: 3 (pizza, steak, sushi)
 - **Training Data**: Pizza-Steak-Sushi dataset
 - **Framework**: PyTorch with Transformers
+- **Model weights**: Downloaded automatically from the Hugging Face Model Hub ([see model repo](https://huggingface.co/mahmoudalrefaey/FoodViT-weights))
 
 ## 🛠️ Development
 
@@ -149,7 +159,6 @@ print(f"Predicted: {result['class']} ({result['confidence']:.2%})")
 
 - **`utils/`**: Core utilities for model loading, image processing, and prediction
 - **`interface/`**: Web interface components
-- **`model/`**: Trained model files
 - **`assets/samples/`**: Example images and static assets
 
 ### Adding New Features
@@ -164,6 +173,7 @@ print(f"Predicted: {result['class']} ({result['confidence']:.2%})")
 - All unnecessary files and caches have been removed
 - Example images are dynamically loaded
 - No test or debug files in the repo
+- Model weights are not included in the repo (downloaded from the Hub)
 - Ready for production and version control
 
 ## 🐛 Troubleshooting

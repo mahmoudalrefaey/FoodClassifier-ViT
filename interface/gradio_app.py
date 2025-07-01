@@ -155,14 +155,8 @@ def create_interface():
 def launch_interface():
     """Launch the Gradio interface"""
     interface = create_interface()
-    
-    # Launch with configuration
-    interface.launch(
-        server_name="127.0.0.1",
-        server_port=7860,
-        share=False,
-        show_error=True
-    )
+    # Launch with default configuration for Hugging Face Spaces
+    interface.launch(ssr_mode=False)
 
 if __name__ == "__main__":
     launch_interface() 
